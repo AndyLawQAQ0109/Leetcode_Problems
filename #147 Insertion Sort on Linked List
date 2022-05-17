@@ -30,26 +30,46 @@ public:
                     iter = next;
                 }
                 else{
-                    prev->next = iter->next;
-                    iter->next = head->next;
-                    head->next = iter;
-
-                    ListNode *pos = iter->next;
-                    prev = head;
-                    while(pos != nullptr){
-                        if(pos->val <= iter->val){
-                            prev->next = pos;
-                            iter->next = pos->next;
-                            pos->next = iter;
-                            prev = pos;
-                            pos = iter->next;
-                        }
-                        else{
-                            prev = iter;
-                            iter = iter->next;
+                    // Find Position & Insert
+                    ListNode *iter_next = iter->next;
+                    ListNode *tmp = head;
+                    ListNode *tmp2 = head->next;
+                    while(tmp != prev){
+                        if(tmp->val <= iter->val && tmp2->val >= iter->val){
+                            iter->next = tmp2;
+                            tmp->next = iter;
+                            // tmp2->next = iter_next;
+                            prev->next = iter_next;
+                            iter = iter_next;
                             break;
                         }
+                        else{
+                            tmp = tmp->next;
+                            tmp2 = tmp2->next;
+                        }
                     }
+                    // Insert at the begining & continue finding the position
+                    
+                    // prev->next = iter->next;
+                    // iter->next = head->next;
+                    // head->next = iter;
+
+                    // ListNode *pos = iter->next;
+                    // prev = head;
+                    // while(pos != nullptr){
+                    //     if(pos->val <= iter->val){
+                    //         prev->next = pos;
+                    //         iter->next = pos->next;
+                    //         pos->next = iter;
+                    //         prev = pos;
+                    //         pos = iter->next;
+                    //     }
+                    //     else{
+                    //         prev = iter;
+                    //         iter = iter->next;
+                    //         break;
+                    //     }
+                    // }
                 }
             }
         }
