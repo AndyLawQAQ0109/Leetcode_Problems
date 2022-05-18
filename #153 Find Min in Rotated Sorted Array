@@ -1,0 +1,21 @@
+class Solution {
+public:
+    // Time Complexity O(logN)
+    int findMin(vector<int>& nums) {
+        if(nums[0] < nums[nums.size()-1]) return nums[0];
+        return recurr(nums, 0, nums.size()-1);
+    }
+    // 4,5,6,7,1
+    int recurr(vector<int>& nums, int b, int e){
+        if(e == b) return nums[b];
+
+        int mid = (b + e) / 2;
+        if(nums[mid] > nums[mid + 1]) return nums[mid + 1];
+        else{
+            if(nums[b] < nums[mid])
+                return recurr(nums, mid+1, e);
+            else
+                return recurr(nums, b, mid);
+        }
+    }
+};
