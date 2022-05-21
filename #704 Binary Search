@@ -4,10 +4,7 @@ public:
         return searchRecurr(nums, target, 0, nums.size() - 1);
     }
     int searchRecurr(vector<int> &nums, int target, int l, int r){
-        if(l == r){
-            if(nums[l] == target) return l;
-            return -1;
-        }
+        if(l == r) return nums[l] == target ? l : -1;
         
         int midd = (l + r) / 2;
         if(nums[midd] == target) return midd;
