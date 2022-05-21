@@ -1,0 +1,18 @@
+class Solution {
+public:
+    int search(vector<int>& nums, int target) {
+        return searchRecurr(nums, target, 0, nums.size() - 1);
+    }
+    int searchRecurr(vector<int> &nums, int target, int l, int r){
+        if(l == r){
+            if(nums[l] == target) return l;
+            return -1;
+        }
+        
+        int midd = (l + r) / 2;
+        if(nums[midd] == target) return midd;
+        if(target < nums[midd]) return searchRecurr(nums, target, l, midd);
+        else return searchRecurr(nums, target, midd + 1, r);
+        
+    }
+};
