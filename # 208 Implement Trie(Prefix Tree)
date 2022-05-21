@@ -1,0 +1,150 @@
+struct TrieNode {
+    string val;
+    TrieNode *left;
+    TrieNode *right;
+    TrieNode *middle;
+    TrieNode() : val(""), left(nullptr), right(nullptr), middle(nullptr) {}
+    TrieNode(string x) : val(x), left(nullptr), right(nullptr), middle(nullptr) {}
+    TrieNode(string x, TrieNode *left, TrieNode *right, TrieNode *middle) : val(x), left(left), right(right), middle(middle) {}
+};
+class Trie {
+private:
+    TrieNode *root;
+    int counter;
+public:
+    Trie() {
+        root = nullptr;
+        counter = 0;
+    }
+    
+    void insert(string word) {
+        if(root == nullptr){
+            root = new TrieNode(word);
+            counter++;
+        }
+        else{
+            TrieNode *iter = root;
+            cout<<"Current root(before): "<<root->val<<endl;
+            while(iter != nullptr){
+                cout<<word<<" "<<iter->val<<endl;
+                if(iter->val.find(word) != string::npos){ // belongs to left subtree
+                    if(iter->left == nullptr){ // left subtree is empty
+                        iter->left = new TrieNode(word);
+                        counter++;
+                        cout<<"insert left: "<<word<<" to "<<iter->val<<endl;
+                        break;
+                    }
+                    else{ // left subtree is not empty
+                        iter = iter->left;
+                    }
+                }
+                else if(word.find(iter->val) != string::npos){ // belongs to right subtree
+                    if(iter->right == nullptr){ // right subtree is empty
+                        iter->right = new TrieNode(word);
+                        counter++;
+                        cout<<"insert right: "<<word<<" to "<<iter->val<<endl;
+                        break;
+                    }
+                    else{ // right subtree is not empty
+                        iter = iter->right;
+                    }
+                }
+                else{ // belongs to middle subtree or the above of middle
+                    if(word > iter->val){
+                        if(iter->middle == nullptr){ // iter->middle is empty
+                            iter->middle = new TrieNode(word);
+                            counter++;
+                            cout<<"insert middle(down & empty): "<<word<<" to "<<iter->val<<endl;
+                            break;
+                        }
+                        else{
+                            if(iter->middle->val > word){
+                                TrieNode *next = iter->middle;
+                                TrieNode *newNode = new TrieNode(word);
+                                iter->middle = newNode;
+                                newNode->middle = next;
+                                counter++;
+                                cout<<"insert middle(down & not empty): "<<word<<" to "<<iter->val<<endl;
+                                break;
+                            }
+                            else
+                                iter = iter->middle;
+                        }
+                    }
+                    else{
+                        cout<<"insert middle(up): "<<word<<" to "<<iter->val<<endl;
+                        TrieNode *newNode = new TrieNode(word);
+                        newNode->middle = iter;
+                        iter = newNode;
+                        root = iter;
+                        counter++;
+                        
+                        break;
+                    }
+                }
+            }
+            cout<<"Current root(after): "<<root->val<<endl;
+        }
+        
+    }
+    
+    bool search(string word) {
+        // if(count(list.begin(), list.end(), word))
+        //     return true;
+        // return false;
+        if(root == nullptr) return false;
+        int counted = 0;
+        TrieNode *iter = root;
+        while(iter != nullptr){
+            if(word == iter->val) return true;
+            if(iter->val.find(word) != string::npos){
+                iter = iter->left;
+                counted++;
+            }
+            else if(word.find(iter->val) != string::npos){
+                iter = iter->right;
+                counted++;
+            }
+            else{
+                iter = iter->middle;
+                counted++;
+            }
+        }
+        // cout<<"search - [counter, counted]: ["<<counter<<", "<<counted<<"]\n";
+        return false;
+    }
+    
+    bool startsWith(string prefix) {
+        // for(string s : list){
+        //     if (s.find(prefix) != std::string::npos)
+        //         return true;
+        // }
+        // return false;
+        if(root == nullptr) return false;
+
+        int counted = 0;
+        int len = prefix.length();
+        TrieNode *iter = root;
+        while(iter != nullptr){
+            if(iter->val.substr(0, len) == prefix) return true;
+            if(prefix.find(iter->val) != string::npos){
+                iter = iter->right;
+                counted++;
+            }
+            else{
+                iter = iter->middle;
+                counted++;
+            }
+        }
+        // cout<<"startsWith - [counter, counted]: ["<<counter<<", "<<counted<<"]\n";
+        return false;
+    }
+};
+
+/**
+ * Your Trie object will be instantiated and called as such:
+ * Trie* obj = new Trie();
+ * obj->insert(word);
+ * bool param_2 = obj->search(word);
+ * bool param_3 = obj->startsWith(prefix);
+ */
