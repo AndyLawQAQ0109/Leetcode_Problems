@@ -1,0 +1,15 @@
+// The API isBadVersion is defined for you.
+// bool isBadVersion(int version);
+
+class Solution {
+public:
+    int firstBadVersion(int n) {
+        return binarySearch(0, n - 1);
+    }
+    int binarySearch(long long int l, long long int r){
+        if(l == r) return isBadVersion(l) ? l : l + 1;
+        long long int midd = (l + r) / 2;
+        if(isBadVersion(midd)) return binarySearch(l, midd);
+        else return binarySearch(midd + 1, r);
+    }
+};
