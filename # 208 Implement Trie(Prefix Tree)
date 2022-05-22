@@ -1,3 +1,53 @@
+class Trie {
+private:
+    bool isEnd;
+    Trie *next[26];
+public:
+    Trie() {
+        isEnd = false;
+        memset(next, 0, sizeof(next));
+    }
+    
+    void insert(string word) {
+        Trie *curr = this;
+        for(char ch : word){
+            int i = ch - 'a';
+            if(curr->next[i] == nullptr) curr->next[i] = new Trie();
+            curr = curr->next[i];
+        }
+        curr->isEnd = true;
+    }
+    
+    bool search(string word) {
+        Trie *curr = this;
+        for(char ch : word){
+            int i = ch - 'a';
+            if(curr->next[i] == nullptr) return false;
+            curr = curr->next[i];
+        }
+        return curr->isEnd;
+    }
+    
+    bool startsWith(string prefix) {
+        Trie *curr = this;
+        for(char ch : prefix){
+            int i = ch - 'a';
+            if(curr->next[i] == nullptr) return false;
+            curr = curr->next[i];
+        }
+        return true;
+    }
+};
+
+/**
+ * Your Trie object will be instantiated and called as such:
+ * Trie* obj = new Trie();
+ * obj->insert(word);
+ * bool param_2 = obj->search(word);
+ * bool param_3 = obj->startsWith(prefix);
+ */
+
+/*
 struct TrieNode {
     string val;
     TrieNode *left;
@@ -148,3 +198,4 @@ public:
  * bool param_2 = obj->search(word);
  * bool param_3 = obj->startsWith(prefix);
  */
+*/
