@@ -1,0 +1,16 @@
+class Solution {
+public:
+    void moveZeroes(vector<int>& nums) {
+        if(nums.size() == 1) return;
+
+        int i,j;
+        for(i=0, j=0; i<nums.size() && j<nums.size();){
+            if(nums[i] == 0) i++;
+            else nums[j++] = nums[i++];
+        }
+        cout<<i<<" "<<j<<endl;
+        for(j; j<nums.size(); j++){
+            nums[j] = 0;
+        }
+    }
+};
