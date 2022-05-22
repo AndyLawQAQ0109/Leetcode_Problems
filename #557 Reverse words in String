@@ -1,0 +1,20 @@
+class Solution {
+public:
+    string reverseWords(string s) {
+        int head = 0, tail = 0;
+        for(tail; tail<s.length();){
+            if(s[tail+1] == ' ' || tail == s.length() - 1){
+                for(int i=head, j=tail; i < j; i++, j--){
+                    char tmp = s[i];
+                    s[i] = s[j];
+                    s[j] = tmp;
+                }
+                head = tail + 2;
+                tail = tail + 2;
+            }
+            else
+                tail++;
+        }
+        return s;
+    }
+};
