@@ -1,0 +1,41 @@
+class Solution {
+void print_map(std::unordered_map<char, int> const &m)
+{
+    for (auto const &pair: m) {
+        std::cout << "{" << pair.first << ": " << pair.second << "}\t";
+    }
+}
+public:
+    int lengthOfLongestSubstring(string s) {
+        if(s.length() == 0) return 0;
+        if(s.length() == 1) return 1;
+        unordered_map<char, int> repeat; 
+
+        int len = 0, max = 0;
+        int left, right;
+        for(left=0, right=0; right<s.length(); right++){
+            char c = s[right];
+            // cout<<c<<"\t";
+            if(repeat[c] == 0){
+                // cout<<"if\t";
+                repeat[c]++;
+                len++;
+                max = len > max ? len : max;
+            }
+            else{
+                // cout<<"else\t";           
+                repeat[c]++;         
+                while(repeat[c] > 1){
+                    repeat[s[left]]--;
+                    left++;
+                }  
+                
+                len = right - left + 1;
+                max = len > max ? len : max;
+            }
+            // cout<<"Repeat: "; print_map(repeat);
+            // cout<<s.substr(left, right-left+1)<<endl; //<<"("<<left<<", "<<right<<")"
+        }
+        return max;        
+    }
+};
