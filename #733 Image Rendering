@@ -1,0 +1,29 @@
+class Solution {
+public:
+    vector<vector<int>> floodFill(vector<vector<int>>& image, int sr, int sc, int newColor) {
+        if(newColor == image[sr][sc]) return image;
+        
+        findDirections(image, sr, sc, newColor, image[sr][sc]);
+        return image;
+    }
+    void findDirections(vector<vector<int>>& image, int i, int j, int newColor, int prevColor){
+        if(prevColor != image[i][j]) return;
+        else image[i][j] = newColor;
+
+        int rows = image.size();
+        int columns = image[0].size();
+
+        if(i - 1 >= 0)
+            if(image[i-1][j] == prevColor)
+                findDirections(image, i - 1, j, newColor, prevColor);
+        if(i + 1 < rows)
+            if(image[i+1][j] == prevColor)
+                findDirections(image, i + 1, j, newColor, prevColor);
+        if(j - 1 >= 0)
+            if(image[i][j-1] == prevColor)
+                findDirections(image, i, j - 1, newColor, prevColor);
+        if(j + 1 < columns)
+            if(image[i][j+1] == prevColor)
+                findDirections(image, i, j + 1, newColor, prevColor);
+    }
+};
