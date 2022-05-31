@@ -1,0 +1,32 @@
+class Solution {
+public:
+    vector<vector<int>> permute(vector<int>& nums) {
+        int init_size = nums.size();
+        vector<vector<int>> ans;
+        for(int i=0; i<init_size; i++){
+            vector<int> remain = nums;
+            int start = nums[i];
+            remain.erase(remain.begin() + i);
+            vector<vector<int>> tmp = construct(start, remain);
+            ans.insert(ans.end(), tmp.begin(), tmp.end()); 
+        }
+        return ans;
+    }
+    vector<vector<int>> construct(int start, vector<int> remain){
+        if(remain.size() == 0) return {{start}};
+        if(remain.size() == 1) return {{start, remain[0]}};
+        vector<vector<int>> res;
+        int rem_size = remain.size();
+        for(int i=0; i<rem_size; i++){
+            vector<int> remain_ = remain;
+            int start_ = remain[i];
+            remain_.erase(remain_.begin() + i);
+
+            vector<vector<int>> partial = construct(start_, remain_);
+            for(int j=0; j<partial.size(); j++)
+                partial[j].insert(partial[j].begin(), start);
+            res.insert(res.end(), partial.begin(), partial.end());
+        }
+        return res;
+    }
+};
