@@ -1,0 +1,55 @@
+class Solution {
+public:
+    vector<string> letterCasePermutation(string s) {
+        int count = 0;
+        int index = -1;
+        for(int i=0; i<s.size(); i++){
+            char c = s[i];
+            if(c >= 'a' && c <= 'z' || c >= 'A' && c <= 'Z'){
+                index = i;
+                break;
+            }
+        }
+        if(index == -1) return {s};
+        // cout<<s.substr(0, index+1)<<" "<<s.substr(index+1, s.size()-index-1)<<endl;
+        vector<string> res;
+        if(index == s.size() - 1)
+            res = recurr(s.substr(0, index+1), " ");
+        else
+            res = recurr(s.substr(0, index+1), s.substr(index+1, s.size()-index-1));
+        return res;
+    }
+    vector<string> recurr(string s1, string s2){
+        string origin = s1;
+        s1[s1.size()-1] = (s1[s1.size()-1] >= 'A' && s1[s1.size()-1] <= 'Z') ? s1[s1.size()-1] + 32 : s1[s1.size()-1] - 32;
+        if(s2 == " "){
+            return {origin, s1};
+        }
+
+        vector<string> res;
+        int index = -1;
+        for(int i=0; i<s2.size(); i++){
+            char c = s2[i];
+            if(c >= 'a' && c <= 'z' || c >= 'A' && c <= 'Z'){
+                index = i;
+                if(i == s2.size() - 1)
+                    res = recurr(s2.substr(0, i+1), " ");
+                else
+                    res = recurr(s2.substr(0, i+1), s2.substr(i+1, s2.size()-i-1));
+                break;
+            }
+        }
+        if(index == -1)
+            return {origin + s2, s1 + s2};
+        
+        int size = res.size();
+        for(int i=0; i<size; i++){
+            string s1_ = origin + res[i];
+            string s2_ = s1 + res[i];
+            res[i] = s1_;
+            res.push_back(s2_);
+        }
+        return res;
+        
+    }
+};
