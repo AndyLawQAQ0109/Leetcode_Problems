@@ -1,0 +1,39 @@
+class Solution {
+public:
+    vector<vector<int>> combine(int n, int k) {
+        
+        vector<vector<int>> res;
+        if(k == 1){
+            for(int i=1; i<=n; i++){
+                res.push_back({i});
+            }
+            return res;
+        }
+        return recurr(res, n, k, 1);
+    }
+    vector<vector<int>> recurr(vector<vector<int>> &res, int n, int k, int curr_k){
+        if(curr_k == 1){
+            for(int i=1; i<=n; i++){
+                vector<int> tmp(1, i);
+                res.push_back(tmp);
+            }
+            return recurr(res, n, k, 2);
+        }
+        else{
+            int size = res.size();
+            for(int i=0; i<size; i++){
+                int max = *max_element(res[i].begin(), res[i].end());
+                for(int j=max+1; j<=n; j++){
+                    vector<int> curr = res[i];
+                    curr.push_back(j);
+                    res.push_back(curr);
+                }
+                
+            }
+            res.erase(res.begin(), res.begin() + size);
+            if(curr_k == k) return res;
+            else return recurr(res, n, k, curr_k + 1);
+            
+        }
+    }
+};
