@@ -1,0 +1,22 @@
+class Solution {
+public:
+    bool isPowerOfTwo(int n) {
+        if(n <= 0) return false;
+        if(n == 1) return true;
+        
+        int init_ = 2;
+        int c = 1;
+        while(init_ < n && (INT_MAX / 2 > init_)){
+            init_ = init_ << 1;
+            c++;
+        }
+        return init_ == n;
+    }
+};
+
+class Solution {
+public:
+    bool isPowerOfTwo(int n) {
+        return n > 0 && (n & (n - 1)) == 0;
+    }
+};
