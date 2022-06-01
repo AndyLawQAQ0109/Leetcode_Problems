@@ -3,17 +3,34 @@ public:
     int rob(vector<int>& nums) {
         if(nums.size() == 1) return nums[0];
 
-        vector<int> dp(nums.size(), 0);
+        vector<int> dp = nums;
         dp[0] = nums[0]; dp[1] = nums[1];
+        // dp[1] = max(nums[0], nums[1]);
+        int max = dp[0];
         for(int i=2; i<nums.size(); i++){
-            int max = dp[0];
-            for(int j=0; j<i-1; j++)
-                if(dp[j] > max) 
-                    max = dp[j];
-            
-            dp[i] = max + nums[i];
+            dp[i] = dp[i] + std::max(max, dp[i-2]);
+            if(dp[i-2] > max)
+                max = dp[i-2];
+            // dp[i] = (dp[i-1] > dp[i-2] + nums[i]) ? dp[i-1] : dp[i-2] + nums[i];
         }
 
-        return max(dp[nums.size()-1], dp[nums.size()-2]);
+        return std::max(dp[nums.size()-1], dp[nums.size()-2]);
+    }
+};
+
+class Solution {
+public:
+    int rob(vector<int>& nums) {
+        if(nums.size() == 1) return nums[0];
+
+        vector<int> dp = nums;
+        dp[0] = nums[0];
+        dp[1] = max(nums[0], nums[1]);
+        int max = dp[0];
+        for(int i=2; i<nums.size(); i++){
+            dp[i] = (dp[i-1] > dp[i-2] + nums[i]) ? dp[i-1] : dp[i-2] + nums[i];
+        }
+
+        return dp[nums.size()-1];
     }
 };
