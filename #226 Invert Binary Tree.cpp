@@ -13,23 +13,27 @@ class Solution {
 public:
     TreeNode* invertTree(TreeNode* root) {
         if(!root) return nullptr;
-        if(!root->left){
-            root->left = root->right;
-            root->right = nullptr;
-            invertTree(root->left);
-        }
-        else if(!root->right){
-            root->right = root->left;
-            root->left = nullptr;
-            invertTree(root->right);
-        }
-        else{
-            TreeNode *tmp = root->left;
-            root->left = root->right;
-            root->right = tmp;
-            invertTree(root->left);
-            invertTree(root->right);
-        }
+        // if(!root->left){
+        //     root->left = root->right;
+        //     root->right = nullptr;
+        //     invertTree(root->left);
+        // }
+        // else if(!root->right){
+        //     root->right = root->left;
+        //     root->left = nullptr;
+        //     invertTree(root->right);
+        // }
+        // else{
+        //     TreeNode *tmp = root->left;
+        //     root->left = root->right;
+        //     root->right = tmp;
+        //     invertTree(root->left);
+        //     invertTree(root->right);
+        // }
+        TreeNode *l = invertTree(root->right);
+        TreeNode *r = invertTree(root->left);
+        root->left = l;
+        root->right = r;
         return root;
     }
 };
