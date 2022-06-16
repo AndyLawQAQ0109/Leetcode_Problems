@@ -31,3 +31,34 @@ public:
         return bsCol(matrix, target, mid+1, e);
     }
 };
+
+// Calculate Index
+class Solution {
+public:
+    bool searchMatrix(vector<vector<int>>& matrix, int target) {
+        int m = matrix.size();
+        int n = matrix[0].size();
+
+        return bs(matrix, 0, 0, m-1, n-1, target);
+    }
+    bool bs(vector<vector<int>>& matrix, int sx, int sy, int ex, int ey, int target){
+        if(sx == ex && sy == ey) return target == matrix[sx][sy];
+
+        int m = matrix.size();
+        int n = matrix[0].size();
+        int num = (n - sy) + (ey + 1) + (ex - sx - 1) * n - 1;
+        num = (sx * n + sy) + num / 2;
+        int xmid = num / n;
+        int ymid = num % n;
+
+        if(target == matrix[xmid][ymid]) return true;
+        if(target < matrix[xmid][ymid]) return bs(matrix, sx, sy, xmid, ymid, target);
+        else{
+            if(ymid < matrix[0].size() - 1)
+                return bs(matrix, xmid, ymid+1, ex, ey, target);
+            else
+                return bs(matrix, xmid+1, 0, ex, ey, target);
+        } 
+    }
+
+};
