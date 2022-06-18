@@ -6,6 +6,7 @@ public:
         sort(nums.begin(), nums.end());
         vector<vector<int>> res;
         for(int i=0; i<nums.size() - 2; i++){
+            if(nums[i] > 0) return res;
             int l = i + 1, r = nums.size() - 1;
             while(l < r){
                 if(nums[i] + nums[l] + nums[r] == 0){
@@ -19,12 +20,12 @@ public:
                 }
                 else if(nums[i] + nums[l] + nums[r] < 0)
                     l++;
-                else if(nums[i] + nums[l] + nums[r] > 0)
+                else
                     r--;
             }
+            while(i < nums.size() - 1 && nums[i+1] == nums[i])
+                i++;
         }
-        sort( res.begin(), res.end() );
-        res.erase( unique( res.begin(), res.end() ), res.end() );
         return res;
     }
 };
