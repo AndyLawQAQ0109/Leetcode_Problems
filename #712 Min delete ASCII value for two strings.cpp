@@ -2,6 +2,8 @@ class Solution {
 public:
     int minimumDeleteSum(string s1, string s2) {
         int sz1 = s1.length(), sz2 = s2.length();
+        
+        // dp[i][j] -- represent s1 from index i until the end & s2 from index j unitil the end
         int dp[sz1+1][sz2+1];
         dp[sz1][sz2] = 0;
         
