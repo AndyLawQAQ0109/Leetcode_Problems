@@ -23,6 +23,9 @@ public:
         return recurr(preorder, inorder, 0, size - 1, 0, size - 1);
     }
     TreeNode* recurr(vector<int> &preorder, vector<int> & inorder, int preLeft, int preRight, int inLeft, int inRight){
+        // Test Purpose
+        cout<<"Root: "<< preorder[preLeft]<<" -- "<<preLeft<<" "<<preRight<<" "<<inLeft<<" "<<inRight<<endl;
+        
         // base case
         if(preLeft > preRight)
             return nullptr;
