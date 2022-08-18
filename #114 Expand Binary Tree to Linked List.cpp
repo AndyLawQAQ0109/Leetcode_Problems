@@ -21,12 +21,17 @@ public:
             root->left = nullptr;
         }
         else if(rightMost){ // right is not empty && left is not empty
-            while(rightMost->left || rightMost->right){
-                if(rightMost->right)
-                    rightMost = rightMost->right;
-                else
-                    rightMost = rightMost->left;
+            while(rightMost->right){
+                rightMost = rightMost->right;
             }
+            // ------ Don't need to care about left, only consider right most ---------
+            // while(rightMost->left || rightMost->right){
+            //     if(rightMost->right)
+            //         rightMost = rightMost->right;
+            //     else
+            //         rightMost = rightMost->left;
+            // }
+            
             TreeNode *tmp = root->right;
             root->right = root->left;
             root->left = nullptr;
@@ -35,7 +40,7 @@ public:
 
         flatten(root->right);
     }
-    
+
     // void flatten(TreeNode* root) {
     //     TreeNode *curr = root;
     //     while(curr){
