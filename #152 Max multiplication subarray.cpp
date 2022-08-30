@@ -2,6 +2,8 @@ class Solution {
 public:
     int maxProduct(vector<int>& nums) {
         int n = nums.size();
+        // Because there exists negative, minimum number(neg num) might become maximum number(max num)
+        // Therefore, we have to maintain min value as well.
         vector<int> dpmin(n, 0);
         vector<int> dpmax(n, 0);
         dpmax[0] = nums[0];
